@@ -1,4 +1,4 @@
-# ⚔️ HRIT PANJA — Personal Developer Portfolio
+# ⚔️ HRIT PANJA — Student . Computer Science & Engineering . Narula Institute of Technology...
 
 <div align="center">
 
