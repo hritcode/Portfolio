@@ -1,0 +1,784 @@
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HRIT PANJA | Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Cinzel', 'serif'],
+            jp: ['Noto Serif JP', 'serif'],
+          },
+          colors: {
+            obsidian: '#08080c',
+            crimson: '#e11d48',
+            katana: '#f43f5e',
+            gold: '#f59e0b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #08080c;
+      color: #f1f5f9;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #08080c;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #3f131f;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #e11d48;
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: rgba(15, 15, 22, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(225, 29, 72, 0.45);
+      box-shadow: 0 15px 35px -10px rgba(225, 29, 72, 0.2);
+    }
+
+    /* Subtle text glow */
+    .crimson-glow {
+      text-shadow: 0 0 25px rgba(225, 29, 72, 0.5);
+    }
+
+    /* Katana underline animation */
+    .katana-link {
+      position: relative;
+    }
+    .katana-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background: linear-gradient(90deg, #e11d48, #f59e0b);
+      transition: width 0.3s ease;
+    }
+    .katana-link:hover::after {
+      width: 100%;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Canvas fixed behind everything */
+    #samurai-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    .bg-vignette {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 40%, rgba(8, 8, 12, 0.15) 0%, rgba(8, 8, 12, 0.82) 100%);
+      z-index: -1;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-crimson selection:text-white">
+
+  <!-- Samurai Animated Background -->
+  <canvas id="samurai-canvas"></canvas>
+  <div class="bg-vignette"></div>
+
+  <!-- Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-obsidian/70 backdrop-blur-md border-b border-white/5">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#home" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-crimson to-amber-600 flex items-center justify-center font-display font-bold text-white shadow-lg shadow-crimson/25 group-hover:scale-105 transition-transform">
+          H
+        </div>
+        <div>
+          <span class="font-display font-bold tracking-wider text-lg text-white">HRIT PANJA</span>
+          <span class="hidden sm:inline-block ml-2 text-xs font-jp text-crimson/90">जय श्री कृष्णा !!!</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#about" class="katana-link hover:text-white transition-colors">Study &amp; About</a>
+        <a href="#projects" class="katana-link hover:text-white transition-colors">Projects</a>
+        <a href="#hobbies" class="katana-link hover:text-white transition-colors">Hobbies</a>
+        <a href="#connect" class="katana-link hover:text-white transition-colors">Connect</a>
+        <a href="#connect" class="px-4 py-2 rounded-lg bg-crimson/90 hover:bg-crimson text-white font-semibold shadow-lg shadow-crimson/20 transition-all">
+          Contact Me
+        </a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button id="mobile-menu-btn" aria-label="Toggle Menu" class="md:hidden text-slate-200 hover:text-crimson text-xl p-2">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Nav Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-obsidian/95 backdrop-blur-xl border-b border-white/10 px-6 py-5 space-y-4">
+      <a href="#about" class="block text-slate-300 hover:text-crimson font-medium">Study &amp; About</a>
+      <a href="#projects" class="block text-slate-300 hover:text-crimson font-medium">Projects</a>
+      <a href="#hobbies" class="block text-slate-300 hover:text-crimson font-medium">Hobbies</a>
+      <a href="#connect" class="block text-slate-300 hover:text-crimson font-medium">Connect</a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6">
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex flex-col justify-center pt-24 pb-16">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-amber-400 mb-6">
+          <span class="w-2 h-2 rounded-full bg-crimson animate-pulse"></span>
+          <span>Code with Honor • Build with Precision</span>
+        </div>
+
+        <p class="font-jp text-crimson/90 text-sm sm:text-base tracking-widest mb-2">
+           राधे राधे • HRIT PANJA
+        </p>
+
+        <h1 class="font-display text-5xl sm:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+          HI, I'M <span class="text-transparent bg-clip-text bg-gradient-to-r from-crimson via-rose-400 to-amber-400 crimson-glow">HRIT PANJA</span>
+        </h1>
+
+        <p class="text-slate-300 text-lg sm:text-xl leading-relaxed mb-8 max-w-2xl">
+          A passionate student, developer, and creator forging modern digital experiences. Inspired by the discipline of the samurai—constantly learning, building impactful projects, and sharing my journey.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="#projects" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-crimson to-rose-600 hover:from-rose-600 hover:to-crimson text-white font-semibold shadow-lg shadow-crimson/30 flex items-center gap-2 transition-all hover:scale-[1.02]">
+            <i class="fa-solid fa-code"></i>
+            <span>View My Projects</span>
+          </a>
+          <a href="#connect" class="px-6 py-3.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold flex items-center gap-2 transition-all">
+            <i class="fa-solid fa-paper-plane text-crimson"></i>
+            <span>Get In Touch</span>
+          </a>
+        </div>
+
+        <!-- Quick Social Icons -->
+        <div class="mt-10 flex items-center gap-5 text-slate-400">
+          <a href="https://github.com/hritcode" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="hover:text-white hover:scale-110 transition-all text-xl">
+            <i class="fa-brands fa-github"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/hritpanja27/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="hover:text-blue-400 hover:scale-110 transition-all text-xl">
+            <i class="fa-brands fa-linkedin"></i>
+          </a>
+          <a href="https://www.instagram.com/imhrit_27/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="hover:text-red-500 hover:scale-110 transition-all text-xl">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="mailto:hritpanja@gmail.com" aria-label="Gmail" class="hover:text-amber-400 hover:scale-110 transition-all text-xl">
+            <i class="fa-solid fa-envelope"></i>
+          </a>
+          <span class="text-xs text-slate-500 ml-2 hidden sm:inline">Tip: Click anywhere on the background for a katana slash!</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Study & About Section -->
+    <section id="about" class="py-20 reveal">
+      <div class="flex items-center gap-3 mb-10">
+        <span class="h-px w-10 bg-crimson"></span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">Study &amp; <span class="text-crimson">Discipline</span></h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Academic / Study Card -->
+        <div class="glass-card rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-crimson/15 border border-crimson/30 flex items-center justify-center text-crimson text-xl mb-5">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Current Studies</h3>
+          <p class="text-amber-400 text-sm font-medium mb-4">Computer Science &amp; Engineering</p>
+          <p class="text-slate-300 text-sm leading-relaxed mb-5">
+            Currently focused on mastering full-stack web development, data structures &amp; algorithms, and modern UI/UX architecture. I believe in continuous self-improvement—sharpening my technical blade every single day.
+          </p>
+          <ul class="space-y-2.5 text-sm text-slate-300">
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-crimson text-xs"></i>
+              <span>Core Focus: Web Technologies, JavaScript &amp; Python</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-crimson text-xs"></i>
+              <span>Exploring: AI Integration &amp; Interactive 3D/Canvas Web</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i class="fa-solid fa-check text-crimson text-xs"></i>
+              <span>Goal: Building scalable, user-centric software</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Skills & Arsenal Card -->
+        <div class="glass-card rounded-2xl p-7">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl mb-5">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Technical Arsenal</h3>
+          <p class="text-slate-400 text-sm mb-5">Tools &amp; technologies I use to bring ideas to life:</p>
+
+          <div class="flex flex-wrap gap-2.5">
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">HTML5 &amp; CSS3</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">JavaScript (ES6+)</span>
+            <!-- <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">Tailwind CSS</span> -->
+            <!-- <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">React.js</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">Node.js</span> -->
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">Python</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">Git &amp; GitHub</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">UI/UX Design</span>
+            <span class="px-3.5 py-1.5 rounded-lg bg-white/5 border border-white/10 text-xs font-medium text-slate-200 hover:border-crimson/50 transition-colors">Video Editing</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Current Projects Section -->
+    <section id="projects" class="py-20 reveal">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+        <div class="flex items-center gap-3">
+          <span class="h-px w-10 bg-crimson"></span>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">Current <span class="text-crimson">Projects</span></h2>
+        </div>
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-sm text-slate-300 hover:text-crimson flex items-center gap-2 transition-colors">
+          <span>Explore more on GitHub</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+        <!-- Project 1 -->
+        <article class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-1 rounded-md bg-emerald-500/15 text-emerald-400 text-xs font-semibold border border-emerald-500/20">Active</span>
+              <a href="https://github.com/hritcode/calculator" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors">
+                <i class="fa-brands fa-github text-lg"></i>
+              </a>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Calculator App</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+              A calculator made for working in any field, with a clean interface and smooth animations. It supports basic arithmetic, percentages, and memory functions and many other things.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-3 border-t border-white/5 text-xs text-slate-400">
+            <span>HTML5 Canvas</span> • <span>CSS</span> • <span>PYTHON</span>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-1 rounded-md bg-amber-500/15 text-amber-400 text-xs font-semibold border border-amber-500/20">In Progress</span>
+              <a href="https://github.com/hritcode/python-project/tree/main/Hospital%20Management%20System" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors">
+                <i class="fa-brands fa-github text-lg"></i>
+              </a>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Hospital Management System</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+              A system which we see in hospitals to manage patients, doctors, appointments, and medical records. It aims to streamline hospital operations and improve patient care.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-3 border-t border-white/5 text-xs text-slate-400">
+            <span>PYTHON</span> • <span>SQL</span> • <span>FLASK</span>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="glass-card rounded-2xl p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-2.5 py-1 rounded-md bg-crimson/15 text-rose-400 text-xs font-semibold border border-crimson/20">Building</span>
+              <a href="https://github.com/hritcode" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors">
+                <i class="fa-brands fa-github text-lg"></i>
+              </a>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Arduino &amp; Microcontroller Projects</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-4">
+              A  project using Arduino. This project explore IoT, robotics, and automation, showcasing practical applications of microcontrollers.
+            </p>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-3 border-t border-white/5 text-xs text-slate-400">
+            <span>Arduino</span> • <span>Arduino IDE</span> • <span>C++</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Hobbies & Interests Section -->
+    <section id="hobbies" class="py-20 reveal">
+      <div class="flex items-center gap-3 mb-10">
+        <span class="h-px w-10 bg-crimson"></span>
+        <h2 class="font-display text-3xl sm:text-4xl font-bold text-white">Hobbies &amp; <span class="text-crimson">Passions</span></h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-full bg-red-500/15 text-red-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-brands fa-youtube"></i>
+          </div>
+          <h3 class="font-bold text-white mb-1.5">Gaming Content</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Creating engaging gaming videos, tutorials, and reviews.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-full bg-crimson/15 text-crimson flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <h3 class="font-bold text-white mb-1.5">Gaming</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Exploring story-driven action games, samurai lore, and competitive strategy titles.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-full bg-amber-500/15 text-amber-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-torii-gate"></i>
+          </div>
+          <h3 class="font-bold text-white mb-1.5">Indian Culture</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Inspired by  minimalist aesthetics, and discipline.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-6 text-center">
+          <div class="w-12 h-12 mx-auto rounded-full bg-sky-500/15 text-sky-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-terminal"></i>
+          </div>
+          <h3 class="font-bold text-white mb-1.5">Creative Coding</h3>
+          <p class="text-xs text-slate-400 leading-relaxed">Experimenting with animations, UI micro-interactions, and open-source tools.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connect & Links Section -->
+    <section id="connect" class="py-20 reveal">
+      <div class="glass-card rounded-3xl p-8 sm:p-12 border border-white/10 relative overflow-hidden">
+        <div class="absolute -top-24 -right-24 w-64 h-64 bg-crimson/15 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-2xl mb-10">
+          <p class="text-crimson font-semibold text-sm uppercase tracking-widest mb-2">Connect With Me</p>
+          <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-4">Let's Forge Something Great</h2>
+          <p class="text-slate-300 text-sm sm:text-base">
+            Whether you want to collaborate on a project check out my code in github,for gaming watch my YouTube videos, or just say hello—my links are always open.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- YouTube -->
+          <a href="https://www.youtube.com/@Gaming_with_Hrit" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-red-500/15 border border-white/10 hover:border-red-500/40 transition-all">
+            <div class="w-11 h-11 rounded-lg bg-red-500/20 text-red-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-brands fa-youtube"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white text-sm">YouTube</div>
+              <div class="text-xs text-slate-400">Watch My Channel</div>
+            </div>
+          </a>
+
+          <!-- GitHub -->
+          <a href="https://github.com/hritcode" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/30 transition-all">
+            <div class="w-11 h-11 rounded-lg bg-slate-700/50 text-white flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-brands fa-github"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white text-sm">GitHub</div>
+              <div class="text-xs text-slate-400">Code &amp; Repos</div>
+            </div>
+          </a>
+
+          <!-- LinkedIn -->
+          <a href="https://www.linkedin.com/in/hritpanja27/" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 p-4 rounded-xl bg-white/5 hover:bg-blue-500/15 border border-white/10 hover:border-blue-500/40 transition-all">
+            <div class="w-11 h-11 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-brands fa-linkedin-in"></i>
+            </div>
+            <div>
+              <div class="font-semibold text-white text-sm">LinkedIn</div>
+              <div class="text-xs text-slate-400">Professional Profile</div>
+            </div>
+          </a>
+
+          <!-- Gmail with Copy -->
+          <div class="flex items-center justify-between gap-2 p-4 rounded-xl bg-white/5 border border-white/10 hover:border-amber-500/40 transition-all">
+            <a href="mailto:hritpanja@gmail.com" class="flex items-center gap-3 min-w-0 group">
+              <div class="w-11 h-11 shrink-0 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+                <i class="fa-solid fa-envelope"></i>
+              </div>
+              <div class="truncate">
+                <div class="font-semibold text-white text-sm">Gmail</div>
+                <div class="text-xs text-slate-400 truncate">hritpanja@gmail.com</div>
+              </div>
+            </a>
+            <button id="copy-email-btn" title="Copy Gmail" class="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors shrink-0">
+              <i class="fa-regular fa-copy"></i>
+            </button>
+          </div>
+        </div>
+
+        <div id="copy-toast" class="mt-4 text-xs text-emerald-400 font-medium opacity-0 transition-opacity duration-300">
+          <i class="fa-solid fa-circle-check mr-1"></i> Email copied to clipboard!
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/5 py-8 mt-10 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>&copy; <span id="year"></span> <span class="text-slate-300 font-semibold">HRIT PANJA</span>. जय हिन्द , जय भारत !!!</p>
+      <p class="font-jp text-slate-400">सत्यमेव जयते • Truth always triumphs.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Copy Gmail functionality
+    const copyBtn = document.getElementById('copy-email-btn');
+    const copyToast = document.getElementById('copy-toast');
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('hritpanja@gmail.com').then(() => {
+        copyToast.classList.remove('opacity-0');
+        setTimeout(() => copyToast.classList.add('opacity-0'), 2500);
+      });
+    });
+
+    // Scroll Reveal Animation
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.12 });
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ==========================================
+    // SAMURAI ANIMATED BACKGROUND CANVAS
+    // ==========================================
+    const canvas = document.getElementById('samurai-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let mouse = { x: 0.5, y: 0.5 };
+    let time = 0;
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX / width;
+      mouse.y = e.clientY / height;
+    });
+
+    // Sakura Petals & Embers
+    const petals = [];
+    const PETAL_COUNT = 45;
+
+    class Petal {
+      constructor(isEmber = false) {
+        this.isEmber = isEmber;
+        this.reset(true);
+      }
+      reset(initial = false) {
+        this.x = initial ? Math.random() * width : -20;
+        this.y = initial ? Math.random() * height : Math.random() * height * 0.7;
+        this.size = this.isEmber ? Math.random() * 2.5 + 1 : Math.random() * 6 + 4;
+        this.speedX = Math.random() * 1.4 + 0.6;
+        this.speedY = this.isEmber ? -(Math.random() * 0.8 + 0.3) : (Math.random() * 0.9 + 0.4);
+        this.angle = Math.random() * Math.PI * 2;
+        this.spin = (Math.random() - 0.5) * 0.04;
+        this.opacity = Math.random() * 0.55 + 0.25;
+      }
+      update() {
+        const wind = (mouse.x - 0.5) * 0.8;
+        this.x += this.speedX + wind;
+        this.y += this.speedY + Math.sin(time * 0.02 + this.x * 0.01) * 0.3;
+        this.angle += this.spin;
+
+        if (this.x > width + 30 || this.y > height + 30 || this.y < -30) {
+          this.reset(false);
+          if (this.isEmber) {
+            this.x = Math.random() * width;
+            this.y = height + 10;
+          }
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.globalAlpha = this.opacity;
+        if (this.isEmber) {
+          ctx.fillStyle = Math.random() > 0.5 ? '#f59e0b' : '#f43f5e';
+          ctx.beginPath();
+          ctx.arc(0, 0, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = '#fda4af';
+          ctx.beginPath();
+          ctx.moveTo(0, -this.size);
+          ctx.quadraticCurveTo(this.size * 0.8, 0, 0, this.size);
+          ctx.quadraticCurveTo(-this.size * 0.8, 0, 0, -this.size);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < PETAL_COUNT; i++) {
+      petals.push(new Petal(i % 3 === 0));
+    }
+
+    // Interactive Katana Slash Effect on Click
+    const slashes = [];
+    window.addEventListener('click', (e) => {
+      // Avoid triggering slash when clicking buttons/links
+      if (e.target.closest('a, button')) return;
+      slashes.push({
+        x: e.clientX,
+        y: e.clientY,
+        angle: (Math.random() - 0.5) * 1.4 - 0.3,
+        length: 0,
+        maxLength: 240 + Math.random() * 120,
+        alpha: 1
+      });
+    });
+
+    function drawBackground() {
+      // Deep night sky
+      const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+      skyGrad.addColorStop(0, '#06060a');
+      skyGrad.addColorStop(0.55, '#120810');
+      skyGrad.addColorStop(1, '#08080c');
+      ctx.fillStyle = skyGrad;
+      ctx.fillRect(0, 0, width, height);
+
+      // Crimson Moon (with subtle mouse parallax)
+      const moonX = width * 0.74 + (mouse.x - 0.5) * -25;
+      const moonY = height * 0.30 + (mouse.y - 0.5) * -15;
+      const moonRadius = Math.min(width, height) * 0.16;
+
+      const moonGlow = ctx.createRadialGradient(moonX, moonY, moonRadius * 0.2, moonX, moonY, moonRadius * 2.2);
+      moonGlow.addColorStop(0, 'rgba(225, 29, 72, 0.35)');
+      moonGlow.addColorStop(0.5, 'rgba(225, 29, 72, 0.08)');
+      moonGlow.addColorStop(1, 'rgba(225, 29, 72, 0)');
+      ctx.fillStyle = moonGlow;
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, moonRadius * 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      const moonGrad = ctx.createLinearGradient(moonX, moonY - moonRadius, moonX, moonY + moonRadius);
+      moonGrad.addColorStop(0, '#fb7185');
+      moonGrad.addColorStop(0.5, '#e11d48');
+      moonGrad.addColorStop(1, '#881337');
+      ctx.fillStyle = moonGrad;
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, moonRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Distant Mountain Silhouette
+      ctx.fillStyle = '#0d090f';
+      ctx.beginPath();
+      ctx.moveTo(0, height * 0.82);
+      ctx.lineTo(width * 0.2, height * 0.72);
+      ctx.lineTo(width * 0.38, height * 0.79);
+      ctx.lineTo(width * 0.58, height * 0.66);
+      ctx.lineTo(width * 0.78, height * 0.77);
+      ctx.lineTo(width, height * 0.70);
+      ctx.lineTo(width, height);
+      ctx.lineTo(0, height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Foreground Cliff / Ridge on the right side
+      const cliffBaseY = height * 0.85;
+      ctx.fillStyle = '#050508';
+      ctx.beginPath();
+      ctx.moveTo(width * 0.45, height);
+      ctx.lineTo(width * 0.62, cliffBaseY + 25);
+      ctx.lineTo(width * 0.80, cliffBaseY);
+      ctx.lineTo(width, cliffBaseY + 15);
+      ctx.lineTo(width, height);
+      ctx.closePath();
+      ctx.fill();
+
+      // Draw Samurai Silhouette standing on the cliff
+      drawSamurai(width * 0.76 + (mouse.x - 0.5) * -10, cliffBaseY + 2);
+    }
+
+    function drawSamurai(sx, sy) {
+      const scale = Math.min(width, height) / 850;
+      const s = Math.max(0.65, Math.min(scale, 1.15));
+
+      ctx.save();
+      ctx.translate(sx, sy);
+      ctx.scale(s, s);
+
+      const wave = Math.sin(time * 0.04) * 8;
+      const wave2 = Math.cos(time * 0.05) * 6;
+
+      ctx.fillStyle = '#040406';
+
+      // Flowing Scarf / Haori in the wind (leftwards)
+      ctx.beginPath();
+      ctx.moveTo(-8, -112);
+      ctx.quadraticCurveTo(-55, -118 + wave, -105, -95 + wave2);
+      ctx.quadraticCurveTo(-60, -88 + wave, -12, -92);
+      ctx.closePath();
+      ctx.fill();
+
+      // Flowing Hakama / Cloak
+      ctx.beginPath();
+      ctx.moveTo(-14, -65);
+      ctx.lineTo(14, -65);
+      ctx.lineTo(26, 0);
+      ctx.lineTo(-32 + wave * 0.4, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      // Torso & Shoulders
+      ctx.beginPath();
+      ctx.moveTo(-18, -112);
+      ctx.lineTo(18, -112);
+      ctx.lineTo(14, -62);
+      ctx.lineTo(-14, -62);
+      ctx.closePath();
+      ctx.fill();
+
+      // Head
+      ctx.beginPath();
+      ctx.arc(0, -125, 11, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Iconic Conical Samurai Hat (Kasa)
+      ctx.beginPath();
+      ctx.moveTo(-34, -125);
+      ctx.quadraticCurveTo(0, -152, 34, -125);
+      ctx.quadraticCurveTo(0, -130, -34, -125);
+      ctx.closePath();
+      ctx.fill();
+
+      // Katana Scabbard & Blade held at angle
+      ctx.strokeStyle = '#040406';
+      ctx.lineWidth = 3.5;
+      ctx.beginPath();
+      ctx.moveTo(-38, -50);
+      ctx.lineTo(52, -92);
+      ctx.stroke();
+
+      // Subtle Crimson Katana Glint
+      const glintPos = (Math.sin(time * 0.03) + 1) * 0.5;
+      ctx.strokeStyle = `rgba(244, 63, 94, ${0.25 + glintPos * 0.45})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(15, -75);
+      ctx.lineTo(52, -92);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    function drawSlashes() {
+      for (let i = slashes.length - 1; i >= 0; i--) {
+        const sl = slashes[i];
+        sl.length += (sl.maxLength - sl.length) * 0.35;
+        sl.alpha -= 0.045;
+
+        if (sl.alpha <= 0) {
+          slashes.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.translate(sl.x, sl.y);
+        ctx.rotate(sl.angle);
+        ctx.globalAlpha = sl.alpha;
+
+        const grad = ctx.createLinearGradient(-sl.length / 2, 0, sl.length / 2, 0);
+        grad.addColorStop(0, 'rgba(225, 29, 72, 0)');
+        grad.addColorStop(0.5, '#ffffff');
+        grad.addColorStop(1, 'rgba(225, 29, 72, 0)');
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#e11d48';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.moveTo(-sl.length / 2, 0);
+        ctx.lineTo(sl.length / 2, 0);
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+
+    function animate() {
+      time++;
+      drawBackground();
+      petals.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      drawSlashes();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
