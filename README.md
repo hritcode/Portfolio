@@ -116,19 +116,6 @@ Exploring IoT, robotics, automation, and practical applications of microcontroll
 
 ---
 
-## 💻 Run Locally
-
-Want to explore my portfolio on your computer?
-
-```bash
-# Clone the repository
-git clone https://github.com/hritcode/YOUR_REPOSITORY_NAME.git
-
-# Navigate into the project folder
-cd YOUR_REPOSITORY_NAME
-
-# Open index.html in your browser
-```
 
 No framework installation or build process is required.
 
