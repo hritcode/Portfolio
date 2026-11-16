@@ -1,4 +1,4 @@
-# ⚔️ HRIT PANJA — Student . Computer Science & Engineering . Narula Institute of Technology...
+# ⚔️ HRIT PANJA — Computer Science & Engineering .
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 
 *Inspired by the discipline of the Samurai — constantly learning, building, and improving.*
 
-[![Portfolio](https://img.shields.io/badge/🌐_Live_Portfolio-Visit_Now-E11D48?style=for-the-badge)](YOUR_VERCEL_URL)
+[![Portfolio](https://img.shields.io/badge/🌐_Live_Portfolio-Visit_Now-E11D48?style=for-the-badge)](https://hrit-panja-portfolio.vercel.app/)
 [![GitHub](https://img.shields.io/badge/GitHub-hritcode-181717?style=for-the-badge&logo=github)](https://github.com/hritcode)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/hritpanja27/)
 
